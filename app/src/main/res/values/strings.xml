@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">DropTask</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="submit">Submit</string>
+    <string name="contact_details">Contact Details</string>
+    <string name="address">Address</string>
+    <string name="street_address">Street Address</string>
+    <string name="city">City</string>
+    <string name="country">Country</string>
+    <string name="full_name">Full name</string>
+    <string name="drop">Drop</string>
+    <string name="review_drop">Review Drop</string>
+    <string name="choose_bags">Choose Bags</string>
+    <string name="my_drops">My Drops</string>
+    <string name="no_drop_empty_state">No drop\'s here.. \ntry adding some to see them...</string>
+
+</resources>
