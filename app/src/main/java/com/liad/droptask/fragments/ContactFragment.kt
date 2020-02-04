@@ -7,19 +7,20 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import co.climacell.statefulLiveData.core.subscribe
 import com.google.android.material.textfield.TextInputLayout
 import com.hbb20.CountryCodePicker
 import com.liad.droptask.R
-import com.liad.droptask.di.DaggerAppComponent
+import com.liad.droptask.adapters.ContactAdapter
 import com.liad.droptask.extensions.changeFragment
 import com.liad.droptask.extensions.validate
 import com.liad.droptask.models.Contact
+import com.liad.droptask.models.Phone
 import com.liad.droptask.viewmodels.ContactFragViewModel
-import com.liad.droptask.viewmodels.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_contact_details.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 class ContactFragment : Fragment() {
 
@@ -30,30 +31,39 @@ class ContactFragment : Fragment() {
     private lateinit var phoneUnderline: View
     private lateinit var countryCodePicker: CountryCodePicker
 
-    @Inject
-    lateinit var contactFragViewModel: ContactFragViewModel
-    @Inject
-    lateinit var factory: ViewModelFactory
+    private lateinit var contactAdapter: ContactAdapter
+    private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    private val contactList: MutableList<Contact> = mutableListOf()
 
-        DaggerAppComponent.create().inject(this)
+    private val contactViewModel: ContactFragViewModel by inject()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         val view = inflater.inflate(R.layout.fragment_contact_details, container, false)
 
-        contactFragViewModel = ViewModelProviders.of(this, factory).get(ContactFragViewModel::class.java)
-        contactFragViewModel.getContact().observe(this, Observer {
-            updateContact(it)
-        })
+        contactViewModel.statefulLiveDataContact.subscribe(viewLifecycleOwner)
+            .onSuccess {
+                updateContact(it)
+                progressBar.visibility = View.GONE
+            }.onLoading {
+                progressBar.visibility = View.VISIBLE
+            }.onError {
+                progressBar.visibility = View.GONE
+            }.observe()
+
+        contactViewModel.statefulLiveDataContactList.subscribe(viewLifecycleOwner)
+            .onSuccess {
+                if (it.size > 1) contactAdapter.setContacts(it)
+            }.observe()
 
         return view
     }
 
-    private fun updateContact(contact: Contact) {
-        fullNameTextInputLayout.editText?.setText(contact.fullName)
-        phoneTextInputLayout.editText?.setText(contact.phoneNumber.number)
+    fun updateContact(contact: Contact) {
+        contact_details_fragment_fname_tie.setText(contact.fullName)
+        countryCodePicker.setCountryForPhoneCode(contact.phoneNumber.countryCode)
+        contact_details_fragment_phone_tie.setText(contact.phoneNumber.number)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,17 +79,41 @@ class ContactFragment : Fragment() {
         progressBar = contact_details_fragment_progress_bar
         phoneUnderline = contact_details_fragment_phone_underline_view
         countryCodePicker = contact_details_fragment_country_code_picker
-        countryCodePicker.registerCarrierNumberEditText(phoneTextInputLayout.editText)
+
+        contactAdapter = ContactAdapter(
+            this,
+            contactList
+            // todo Liad - delete in production
+            /*listOf(
+                Contact("Liad h", Phone(972, "547320099")),
+                Contact("Dani cohen", Phone(44, "123456784")),
+                Contact()
+            )*/
+        )
+        recyclerView = contact_details_fragment_recycler_view
+        recyclerView.apply {
+            adapter = contactAdapter
+            layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
+        }
+
     }
 
     private fun setListeners() {
         contact_details_fragment_submit_button.setOnClickListener {
             if (validateFields()) {
-                val addressFragment = AddressFragment.newInstance()
+                contactViewModel.insertContact(
+                    Contact(
+                        fullNameTextInputLayout.editText?.text.toString(),
+                        Phone(
+                            countryCodePicker.selectedCountryCode.toInt(),
+                            phoneTextInputLayout.editText?.text.toString()
+                        )
+                    )
+                )
                 changeFragment(
                     activity!!.supportFragmentManager,
                     R.id.main_activity_frame_layout,
-                    addressFragment,
+                    AddressFragment.newInstance(),
                     true
                 )
             }
@@ -96,7 +130,6 @@ class ContactFragment : Fragment() {
 
             phoneUnderline.setBackgroundColor(resources.getColor(if (hasFocus) R.color.colorAccent else R.color.phone_underline))
         }
-
     }
 
     private fun validateFields(): Boolean {

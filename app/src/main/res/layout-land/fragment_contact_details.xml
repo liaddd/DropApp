@@ -31,7 +31,8 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
-            android:layout_marginTop="@dimen/margin_4dp"
+            android:layout_above="@+id/contact_details_fragment_submit_button"
+            android:layout_marginBottom="@dimen/margin_16dp"
             android:id="@+id/contact_details_fragment_contact_details_container"
             android:gravity="center"
             android:layout_marginStart="@dimen/margin_16dp"
@@ -50,11 +51,10 @@
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contact_details_fragment_fname_tie"
                     android:layout_width="match_parent"
-
                     android:tag="@string/full_name"
                     android:hint="@string/full_name"
                     android:fontFamily="@font/tusj"
-                    android:inputType="text|textCapSentences"
+                    android:inputType="text"
                     android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -80,7 +80,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/contact_details_fragment_phone_tie"
                         android:hint="@string/phone_number"
-                        android:inputType="numberDecimal"
+                        android:inputType="phone"
                         android:fontFamily="@font/tusj"
                         android:tag="@string/phone_number"
                         android:background="@android:color/transparent"

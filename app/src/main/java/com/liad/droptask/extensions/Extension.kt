@@ -6,10 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import co.climacell.statefulLiveData.core.StatefulData
 import com.liad.droptask.R
 
 
@@ -36,4 +41,23 @@ fun showKeyboard(context: Context, editText: EditText?) {
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
+}
+
+fun toast(context: Context, message: String) {
+    Toast.makeText(context , message , Toast.LENGTH_SHORT).show()
+}
+
+
+@MainThread
+fun <T> LiveData<T>.observeOnceNullable(observer: Observer<T>, retainForLoadingState: Boolean = true) {
+    this.observeForever(object : Observer<T> {
+        override fun onChanged(t: T) {
+
+            if (t !is StatefulData<*> || !retainForLoadingState || t !is StatefulData.Loading<*>) {
+                removeObserver(this)
+            }
+
+            observer.onChanged(t)
+        }
+    })
 }

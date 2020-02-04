@@ -1,15 +1,18 @@
 package com.liad.droptask.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.liad.droptask.models.Contact
-import com.liad.droptask.repositories.DropRepository
-import javax.inject.Inject
+import com.liad.droptask.repositories.IDropRepository
 
-class ContactFragViewModel @Inject constructor(private val repository: DropRepository) : ViewModel() {
+class ContactFragViewModel (private val repository: IDropRepository) : ViewModel() {
 
-    fun getContact(): LiveData<Contact> {
-        return repository.getContactLiveData()
+    val statefulLiveDataContact = repository.statefulLiveDataContact
+
+    val statefulLiveDataContactList = repository.statefulLiveDataContactList
+
+
+    fun insertContact(contact: Contact){
+        repository.insertContact(contact)
     }
 
 }

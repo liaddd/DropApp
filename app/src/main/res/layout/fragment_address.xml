@@ -66,7 +66,7 @@
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/address_fragment_country_tie"
                     android:hint="@string/country"
-                    android:inputType="phone"
+                    android:inputType="text"
                     android:fontFamily="@font/tusj"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -75,6 +75,9 @@
     </LinearLayout>
 
     <Button
+            android:background="@drawable/rounded_purple_button_background"
+            android:textColor="@android:color/white"
+            android:padding="12dp"
             android:layout_centerHorizontal="true"
             android:textAllCaps="false"
             android:layout_marginBottom="@dimen/margin_16dp"

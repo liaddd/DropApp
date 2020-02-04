@@ -1,5 +1,6 @@
 package com.liad.droptask.adapters
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -13,9 +14,7 @@ import com.liad.droptask.models.Bag
 class BagsAdapter(private val baseFragment: BagsFragment?, private var bags: List<Bag>) :
     RecyclerView.Adapter<BagsAdapter.ViewHolder>() {
 
-
-    //var onItemClick: ((Bag) -> Unit)? = null
-
+    val bagsMutableList = mutableListOf<Bag>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.bag_list_item))
     }
@@ -31,24 +30,35 @@ class BagsAdapter(private val baseFragment: BagsFragment?, private var bags: Lis
 
         holder.cardView.setOnClickListener {
             bag.isAdded = !bag.isAdded
-            baseFragment!!.updateSelectedBags(bag)
-            (it as CardView).setCardBackgroundColor(
-                baseFragment.activity?.resources!!.getColor(
-                    if (bags[position].isAdded) android.R.color.black
-                    else android.R.color.white
-                )
-            )
-            holder.textView.setTextColor(
-                baseFragment.activity?.resources!!.getColor(
-                    if (bags[position].isAdded) android.R.color.white
-                    else android.R.color.black
-                )
-            )
+            Log.d("Liad", "${bag.isAdded}")
+            baseFragment?.updateSelectedBags(bag)
+            toggleItemState(holder, bag)
         }
+
+        if (bag.isAdded) toggleItemState(holder, bag)
+    }
+
+    private fun toggleItemState(holder: ViewHolder, bag: Bag) {
+        holder.cardView.setCardBackgroundColor(
+            baseFragment?.activity?.resources!!.getColor(
+                if (bag.isAdded) android.R.color.black
+                else android.R.color.white
+            )
+        )
+        holder.textView.setTextColor(
+            baseFragment.activity?.resources!!.getColor(
+                if (bag.isAdded) android.R.color.white
+                else android.R.color.black
+            )
+        )
     }
 
     fun setBags(bags: List<Bag>) {
-        this.bags = bags
+        val bagMutableList = mutableListOf<Bag>()
+        for (bag in bags) {
+            bagMutableList.add(bag)
+        }
+        this.bags = bagMutableList
         notifyDataSetChanged()
     }
 
@@ -56,13 +66,5 @@ class BagsAdapter(private val baseFragment: BagsFragment?, private var bags: Lis
 
         val textView: TextView = itemView.findViewById(R.id.bag_list_item_text_view)
         var cardView: CardView = itemView.findViewById(R.id.bag_list_item_card_view)
-
-        init {
-            /*itemView.setOnClickListener {
-                onItemClick?.invoke(bags[adapterPosition])
-            }*/
-        }
-
-
     }
 }

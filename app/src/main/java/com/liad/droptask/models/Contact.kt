@@ -1,25 +1,20 @@
 package com.liad.droptask.models
 
 import androidx.room.Entity
-import javax.inject.Inject
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "contact_table")
-data class Contact @Inject constructor(
-    val fullName: String,
-    val phoneNumber: Phone,
-    val address: List<Address>,
-    val bags: List<Bag>
+data class Contact constructor(
+    var fullName: String,
+    var phoneNumber: Phone
 ) {
 
+    @PrimaryKey(autoGenerate = true) var id: Long = 0
+    constructor() : this("", Phone(0, ""))
+
+
     override fun toString(): String {
-        return "fullName='$fullName',\n" +
-                "phoneNumber='$phoneNumber',\n" +
-                "address=$address,\n" +
-                "bags=$bags"
+        return /*"id='$id',\n" +*/"fullName='$fullName',\n" +
+                "phoneNumber='$phoneNumber'"
     }
-
-
 }
-
-data class Phone(val countryCode: Int, val number: String)
-

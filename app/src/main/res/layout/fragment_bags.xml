@@ -1,41 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/yellow_background"
-        tools:context=".fragments.ContactFragment">
-
-    <TextView
-            android:id="@+id/bags_fragment_title_text_view"
-            android:layout_marginTop="@dimen/margin_16dp"
-            android:textSize="@dimen/text_32sp"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/tusj"
-            android:text="@string/choose_bags"
-    />
+        android:layout_height="match_parent">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/bags_fragment_recycler_view"
-            android:layout_below="@+id/bags_fragment_title_text_view"
-            android:layout_above="@+id/bags_fragment_submit_button"
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/yellow_background"
+            tools:context=".fragments.ContactFragment">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <TextView
+                android:id="@+id/bags_fragment_title_text_view"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:textSize="@dimen/text_32sp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/tusj"
+                android:text="@string/choose_bags"/>
 
-    <Button
-            android:layout_centerHorizontal="true"
-            android:textAllCaps="false"
-            android:layout_marginBottom="@dimen/margin_16dp"
-            android:layout_alignParentBottom="true"
-            android:text="@string/drop"
-            android:id="@+id/bags_fragment_submit_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-</RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
+                android:id="@+id/bags_fragment_recycler_view"
+                android:layout_below="@+id/bags_fragment_title_text_view"
+                android:layout_above="@+id/bags_fragment_submit_button"
+                android:layout_width="match_parent"
+                tools:listitem="@layout/bag_list_item"
+                android:layout_height="match_parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <Button
+                android:background="@drawable/rounded_purple_button_background"
+                android:textColor="@android:color/white"
+                android:padding="12dp"
+                android:layout_centerHorizontal="true"
+                android:textAllCaps="false"
+                android:layout_marginBottom="@dimen/margin_16dp"
+                android:layout_alignParentBottom="true"
+                android:text="@string/drop"
+                android:id="@+id/bags_fragment_submit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

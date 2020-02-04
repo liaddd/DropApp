@@ -4,14 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.liad.droptask.models.Address
 import com.liad.droptask.models.Bag
 import com.liad.droptask.models.Contact
 
-@Database(entities = [Contact::class, Address::class, Bag::class], version = 1)
+
+@Database(entities = [Contact::class, Address::class, Bag::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class DropDatabase : RoomDatabase() {
 
-    abstract fun dropDao(): DropDao
+    abstract fun dao(): DropDao
 
     companion object {
 
@@ -32,7 +35,5 @@ abstract class DropDatabase : RoomDatabase() {
                     .build()
             }
         }
-
     }
-
 }

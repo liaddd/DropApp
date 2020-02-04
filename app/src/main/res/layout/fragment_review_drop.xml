@@ -9,6 +9,7 @@
         tools:context=".fragments.ContactFragment">
 
     <TextView
+            android:id="@+id/review_drop_fragment_title_text_view"
             android:layout_marginTop="@dimen/margin_16dp"
             android:textSize="@dimen/text_32sp"
             android:layout_centerHorizontal="true"
@@ -18,12 +19,63 @@
             android:text="@string/review_drop"
     />
 
+   <!-- <LinearLayout
+            android:background="@android:color/white"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_below="@+id/review_drop_fragment_title_text_view"
+            android:layout_margin="@dimen/margin_16dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:textSize="@dimen/text_size16sp"
+                android:id="@+id/review_drop_fragment_fullname_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:textSize="@dimen/text_size16sp"
+                android:id="@+id/review_drop_fragment_phone_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:textSize="@dimen/text_size16sp"
+                android:id="@+id/review_drop_fragment_address_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:textSize="@dimen/text_size16sp"
+                android:id="@+id/review_drop_fragment_bags_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@+id/review_drop_fragment_title_text_view"
+            android:id="@+id/review_drop_fragment_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_above="@+id/review_drop_fragment_submit_button"
+            android:visibility="visible"
+            tools:listitem="@layout/drop_review_list_item"
+            android:layout_height="wrap_content">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
     <TextView
             android:id="@+id/review_drop_fragment_review_text_view"
             android:textSize="@dimen/text_size16sp"
             android:text="@string/no_drop_empty_state"
             android:layout_centerInParent="true"
             android:layout_margin="@dimen/margin_16dp"
+            android:visibility="gone"
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,6 +83,9 @@
     />
 
     <Button
+            android:background="@drawable/rounded_purple_button_background"
+            android:textColor="@android:color/white"
+            android:padding="12dp"
             android:layout_centerHorizontal="true"
             android:textAllCaps="false"
             android:layout_marginBottom="@dimen/margin_16dp"
@@ -39,4 +94,11 @@
             android:id="@+id/review_drop_fragment_submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+    <ProgressBar
+            android:id="@+id/review_drop_fragment_progress_bar"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:layout_width="@dimen/size_60dp"
+            android:layout_height="@dimen/size_60dp"/>
 </RelativeLayout>
