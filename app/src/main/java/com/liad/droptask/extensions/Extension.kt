@@ -39,12 +39,18 @@ fun showKeyboard(context: Context, editText: EditText?) {
     imm!!.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
 }
 
+
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
 }
 
 fun toast(context: Context, message: String) {
-    Toast.makeText(context , message , Toast.LENGTH_SHORT).show()
+    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+}
+
+fun <T> MutableList<T>.clearAndAddAll(newData: List<T>) {
+    clear()
+    addAll(newData)
 }
 
 

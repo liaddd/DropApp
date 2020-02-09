@@ -9,16 +9,20 @@ import com.liad.droptask.models.DropReview
 
 interface IDropRepository {
 
-    val statefulLiveDataContact: StatefulLiveData<Contact>
     val statefulLiveDataContactList: StatefulLiveData<List<Contact>>
     val statefulLiveDataAddress: StatefulLiveData<Address>
     val statefulLiveDataBags: StatefulLiveData<List<Bag>>
 
+    val statefulLiveDataContact: StatefulLiveData<Contact>
+
     fun insertContact(newContact: Contact)
+
+    fun removeContact(contactId: Long)
 
     fun insertAddress(newAddress: Address)
 
     fun insertBags(newBags : List<Bag>)
 
-    fun getDropReview() : LiveData<DropReview>
+    fun getDropReview(): LiveData<DropReview>
+
 }

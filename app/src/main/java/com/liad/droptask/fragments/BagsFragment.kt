@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +12,7 @@ import co.climacell.statefulLiveData.core.StatefulData
 import com.liad.droptask.R
 import com.liad.droptask.adapters.BagsAdapter
 import com.liad.droptask.extensions.changeFragment
+import com.liad.droptask.extensions.toast
 import com.liad.droptask.models.Bag
 import com.liad.droptask.viewmodels.BagsFragViewModel
 import kotlinx.android.synthetic.main.fragment_bags.*
@@ -23,7 +23,7 @@ class BagsFragment : Fragment() {
     private val viewModel: BagsFragViewModel by inject()
     private lateinit var bagsAdapter: BagsAdapter
     private var selectedBags: MutableList<Bag> = mutableListOf()
-    private val bagsList = listOf(Bag(), Bag(), Bag())
+    private val bagsList = emptyList<Bag>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -57,7 +57,7 @@ class BagsFragment : Fragment() {
 
     private fun setListeners() {
         bags_fragment_submit_button.setOnClickListener {
-            if (selectedBags.isNotEmpty()) {
+            if (!selectedBags.isNullOrEmpty()) {
                 viewModel.addBags(selectedBags)
                 changeFragment(
                     activity!!.supportFragmentManager,
@@ -66,7 +66,7 @@ class BagsFragment : Fragment() {
                     true
                 )
             } else {
-                Toast.makeText(activity!!, "Please choose bags to continue", Toast.LENGTH_LONG).show()
+               toast(activity!!, "Please choose at least one bag to continue")
             }
         }
     }

@@ -50,7 +50,6 @@
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contact_details_fragment_fname_tie"
                     android:layout_width="match_parent"
-
                     android:tag="@string/full_name"
                     android:hint="@string/full_name"
                     android:fontFamily="@font/tusj"

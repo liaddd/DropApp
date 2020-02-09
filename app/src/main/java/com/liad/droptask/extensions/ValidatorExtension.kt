@@ -25,16 +25,12 @@ fun TextInputLayout.validate(): Boolean {
                     editText?.requestFocus()
                 }*/
             }
-            resources.getString(R.string.street_address) -> {
-
-            }
-            resources.getString(R.string.city) -> {
-
-            }
+            resources.getString(R.string.street_address),
+            resources.getString(R.string.city),
             resources.getString(R.string.country) -> {
-
+                isValid = true
             }
-            else -> return false //TODO("couldn't find tag")
+            else -> TODO("couldn't find tag")
         }
         if (isValid) isErrorEnabled = false
     } else {

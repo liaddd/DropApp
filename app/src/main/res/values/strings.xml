@@ -15,5 +15,7 @@
     <string name="choose_bags">Choose Bags</string>
     <string name="my_drops">My Drops</string>
     <string name="no_drop_empty_state">No drop\'s here.. \ntry adding some to see them...</string>
+    <string name="fullname">Full name: %1$s</string>
+    <string name="phone">Phone: +%1$d%2$s</string>
 
 </resources>

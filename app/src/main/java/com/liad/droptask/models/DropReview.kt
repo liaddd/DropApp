@@ -12,6 +12,6 @@ data class DropReview(
 ) {
 
     override fun toString(): String {
-        return "statefulLiveDataContact=$contact,\n address=$address\n, bags=$bags"
+        return "contact=$contact,\n address=$address\n, bags=$bags"
     }
 }

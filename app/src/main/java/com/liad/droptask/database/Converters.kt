@@ -11,7 +11,7 @@ import com.liad.droptask.models.Phone
 class Converters {
 
 
-     // statefulLiveDataContact converter
+     // contact converter
      @TypeConverter
      fun stringToContact(data: String?): Contact = Gson().fromJson(data, Contact::class.java)
 

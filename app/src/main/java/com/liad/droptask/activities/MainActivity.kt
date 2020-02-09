@@ -3,10 +3,10 @@ package com.liad.droptask.activities
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.liad.droptask.R
 import com.liad.droptask.extensions.changeFragment
+import com.liad.droptask.extensions.toast
 import com.liad.droptask.fragments.ContactFragment
 import com.liad.droptask.fragments.DropReviewFragment
 
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                     reviewDropFragment,
                     true
                 )
-                else Toast.makeText(this, "You're already in this screen", Toast.LENGTH_LONG).show()
+                else toast(this , "You're already in this screen")
             }
         }
         return super.onOptionsItemSelected(item)
