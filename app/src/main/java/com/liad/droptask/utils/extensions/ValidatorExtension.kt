@@ -1,4 +1,4 @@
-package com.liad.droptask.extensions
+package com.liad.droptask.utils.extensions
 
 import android.text.TextUtils
 import com.google.android.material.textfield.TextInputLayout

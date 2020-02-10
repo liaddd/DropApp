@@ -5,12 +5,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.liad.droptask.R
-import com.liad.droptask.extensions.inflate
+import com.liad.droptask.utils.extensions.clearAndAddAll
+import com.liad.droptask.utils.extensions.inflate
 import com.liad.droptask.models.DropReview
 
-class DropReviewAdapter(private var dropReviews: List<DropReview>) :
+class DropReviewAdapter :
     RecyclerView.Adapter<DropReviewAdapter.ViewHolder>() {
 
+
+    private var dropReviews = mutableListOf<DropReview>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.drop_review_list_item))
     }
@@ -22,19 +25,15 @@ class DropReviewAdapter(private var dropReviews: List<DropReview>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dropReview = dropReviews[position]
 
-        holder.fullNameTextView.text = "Full name: ${dropReview.contact.fullName}"
-        holder.phoneTextView.text =
-            "Phone: +${dropReview.contact.phoneNumber.countryCode}${dropReview.contact.phoneNumber.number}"
-        holder.addressTextView.text = "Address: ${dropReview.address}"
-        holder.bagsTextView.text = "Bags: ${dropReview.bags}"
+        val resources = holder.itemView.resources
+        holder.fullNameTextView.text = resources.getString(R.string.full_name_formatted , dropReview.contact.fullName)
+        holder.phoneTextView.text = resources.getString(R.string.phone_formatted , dropReview.contact.phoneNumber.countryCode , dropReview.contact.phoneNumber.number)
+        holder.addressTextView.text =  resources.getString(R.string.address_formatted , dropReview.address)
+        holder.bagsTextView.text = resources.getString(R.string.bags_formatted , dropReview.bags)
     }
 
-    fun setDropReviews(dropReviews: List<DropReview>) {
-        val dropReviewsMutableList = mutableListOf<DropReview>()
-        for (dropReview in dropReviews) {
-            dropReviewsMutableList.add(dropReview)
-        }
-        this.dropReviews = dropReviews
+    fun setDropReviews(newDropReviews: List<DropReview>) {
+        this.dropReviews.clearAndAddAll(newDropReviews)
         notifyDataSetChanged()
     }
 

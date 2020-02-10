@@ -8,13 +8,13 @@ import co.climacell.statefulLiveData.core.*
 import com.liad.droptask.DropApplication
 import com.liad.droptask.database.DropDao
 import com.liad.droptask.database.DropDatabase
-import com.liad.droptask.extensions.observeOnceNullable
-import com.liad.droptask.extensions.toast
 import com.liad.droptask.models.Address
 import com.liad.droptask.models.Bag
 import com.liad.droptask.models.Contact
 import com.liad.droptask.models.DropReview
 import com.liad.droptask.server_connection.RequestApi
+import com.liad.droptask.utils.extensions.observeOnceNullable
+import com.liad.droptask.utils.extensions.toast
 import retrofit2.Retrofit
 import java.util.concurrent.Executors
 
@@ -51,8 +51,8 @@ class DropRepository(dropDatabase: DropDatabase, retrofit: Retrofit) : IDropRepo
     /** Contact functions */
 
     // insert Contact to DB
-    override fun insertContact(newContact: Contact) {
-        Log.d("Liad", "insertContact()")
+    override fun upsertContact(newContact: Contact) {
+        Log.d("Liad", "upsert Contact()")
 
         val mutableContacts = (statefulLiveDataContactList as? MutableStatefulLiveData<List<Contact>>)
         val possibleContact = (statefulLiveDataContact.value as? StatefulData.Success<Contact>)?.data
@@ -128,8 +128,8 @@ class DropRepository(dropDatabase: DropDatabase, retrofit: Retrofit) : IDropRepo
     }
 
     private fun saveContactInDatabase(contact: Contact) {
+        Log.d("Liad", "saveContactInDatabase: $contact")
         executor.submit {
-            Log.d("Liad", "saveContactInDatabase: $contact")
             val value = dao.insertContact(contact)
             Log.d("Liad", "insertion value: $value")
             contact.id = value
@@ -197,17 +197,15 @@ class DropRepository(dropDatabase: DropDatabase, retrofit: Retrofit) : IDropRepo
     // Api request - POST ADDRESS
     private fun postAddressToApi(newAddress: Address): StatefulLiveData<Unit> {
         Log.d("Liad", "posting $newAddress to API")
-        return requestApi.postAddress(newAddress)/*.map {
-            saveAddressInDatabase(newAddress)
-        }*/
+        return requestApi.postAddress(newAddress)
     }
 
     // Api request - GET ADDRESS
     private fun getAddressFromApi() = requestApi.getAddress()
 
     private fun saveAddressInDatabase(newAddress: Address) {
+        Log.d("Liad", "saveAddressInDatabase - $newAddress")
         executor.submit {
-            Log.d("Liad", "saveAddressInDatabase - $newAddress")
             val value = dao.insertAddress(newAddress)
             Log.d("Liad", "insertion value: $value")
         }
@@ -220,7 +218,6 @@ class DropRepository(dropDatabase: DropDatabase, retrofit: Retrofit) : IDropRepo
 
     // insert Bag to DB
     override fun insertBags(newBags: List<Bag>) {
-
         Log.d("Liad", "insertBags()")
         val possibleSuccessData = (statefulLiveDataBags.value as? StatefulData.Success)?.data
 

@@ -5,8 +5,8 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.liad.droptask.R
-import com.liad.droptask.extensions.changeFragment
-import com.liad.droptask.extensions.toast
+import com.liad.droptask.utils.extensions.changeFragment
+import com.liad.droptask.utils.extensions.toast
 import com.liad.droptask.fragments.ContactFragment
 import com.liad.droptask.fragments.DropReviewFragment
 

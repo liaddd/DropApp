@@ -19,12 +19,26 @@ import org.koin.android.ext.android.inject
 
 class DropReviewFragment : Fragment() {
 
+    companion object {
+        fun newInstance(): DropReviewFragment {
+            return DropReviewFragment()
+        }
+    }
+
     private val viewModel: DropReviewFragViewModel by inject()
-    private lateinit var dropReviewAdapter: DropReviewAdapter
+    private val dropReviewAdapter = DropReviewAdapter()
     private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+        inflater.inflate(R.layout.fragment_review_drop, container, false)
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        setObservers()
+    }
+
+    private fun setObservers() {
         viewModel.dropReviewData.observe(viewLifecycleOwner, Observer {
             review_drop_fragment_progress_bar.visibility = View.VISIBLE
             if (it != null) {
@@ -32,36 +46,26 @@ class DropReviewFragment : Fragment() {
                 review_drop_fragment_progress_bar.visibility = View.GONE
             }
         })
-
-        return inflater.inflate(R.layout.fragment_review_drop, container, false)
     }
 
-    private fun showDropReview(review: DropReview) {
-        dropReviewAdapter.setDropReviews(listOf(review))
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-    }
+    private fun showDropReview(review: DropReview) = dropReviewAdapter.setDropReviews(listOf(review))
 
     private fun initView() {
         review_drop_fragment_submit_button.setOnClickListener {
-            for (i in 0..activity!!.supportFragmentManager.backStackEntryCount) {
-                activity!!.supportFragmentManager.popBackStack()
-            }
+            submitOnClickListener()
         }
 
-        dropReviewAdapter = DropReviewAdapter(emptyList())
         recyclerView = review_drop_fragment_recycler_view.apply {
             adapter = dropReviewAdapter
-            layoutManager = LinearLayoutManager(activity!!, RecyclerView.VERTICAL, false)
+            activity?.let { layoutManager = LinearLayoutManager(it, RecyclerView.VERTICAL, false) }
         }
     }
 
-    companion object {
-        fun newInstance(): DropReviewFragment {
-            return DropReviewFragment()
+    private fun submitOnClickListener() {
+        activity?.let {
+            for (i in 0..it.supportFragmentManager.backStackEntryCount) {
+                it.supportFragmentManager.popBackStack()
+            }
         }
     }
 

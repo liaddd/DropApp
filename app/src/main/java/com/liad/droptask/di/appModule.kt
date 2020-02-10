@@ -21,7 +21,7 @@ val appModule = module {
     // single instance of DropRepository
     single<IDropRepository> { DropRepository(get(), get()) }
 
-
+    // factory for ViewModels
     factory { ContactFragViewModel(get()) }
     factory { AddressFragViewModel(get()) }
     factory { BagsFragViewModel(get()) }

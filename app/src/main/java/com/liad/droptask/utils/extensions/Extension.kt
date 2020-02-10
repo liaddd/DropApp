@@ -1,11 +1,9 @@
-package com.liad.droptask.extensions
+package com.liad.droptask.utils.extensions
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
@@ -34,15 +32,7 @@ fun changeFragment(
     fragmentTransaction.replace(containerId, fragment, fragment::class.java.simpleName).commit()
 }
 
-fun showKeyboard(context: Context, editText: EditText?) {
-    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-    imm!!.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
-}
-
-
-fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
-    return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
-}
+fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View = LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
 
 fun toast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
@@ -52,7 +42,6 @@ fun <T> MutableList<T>.clearAndAddAll(newData: List<T>) {
     clear()
     addAll(newData)
 }
-
 
 @MainThread
 fun <T> LiveData<T>.observeOnceNullable(observer: Observer<T>, retainForLoadingState: Boolean = true) {

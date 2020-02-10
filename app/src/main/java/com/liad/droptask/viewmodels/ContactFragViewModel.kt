@@ -8,7 +8,7 @@ class ContactFragViewModel(private val repository: IDropRepository) : ViewModel(
 
     val statefulLiveDataContactList = repository.statefulLiveDataContactList
 
-    fun insertContact(contact: Contact) = repository.insertContact(contact)
+    fun insertContact(contact: Contact) = repository.upsertContact(contact)
     fun deleteContact(contactId: Long) = repository.removeContact(contactId)
 
 }

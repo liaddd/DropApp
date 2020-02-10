@@ -17,16 +17,17 @@ import com.google.android.material.textfield.TextInputLayout
 import com.hbb20.CountryCodePicker
 import com.liad.droptask.R
 import com.liad.droptask.adapters.ContactAdapter
-import com.liad.droptask.extensions.changeFragment
-import com.liad.droptask.extensions.toast
-import com.liad.droptask.extensions.validate
 import com.liad.droptask.models.Contact
 import com.liad.droptask.models.Phone
+import com.liad.droptask.utils.extensions.changeFragment
+import com.liad.droptask.utils.extensions.toast
+import com.liad.droptask.utils.extensions.validate
 import com.liad.droptask.viewmodels.ContactFragViewModel
 import kotlinx.android.synthetic.main.fragment_contact_details.*
 import org.koin.android.ext.android.inject
 
-//private const val
+private const val BOTTOM_VIEW_EXPENDED_HEIGHT = 6
+private const val BOTTOM_VIEW_COLLAPSED_HEIGHT = 3
 
 class ContactFragment : Fragment() {
 
@@ -36,19 +37,15 @@ class ContactFragment : Fragment() {
         }
     }
 
-
     private lateinit var fullNameTextInputLayout: TextInputLayout
     private lateinit var phoneTextInputLayout: TextInputLayout
-
     private lateinit var progressBar: ProgressBar
     private lateinit var phoneUnderline: View
     private lateinit var countryCodePicker: CountryCodePicker
-    private lateinit var submitButton : Button
-
+    private lateinit var submitButton: Button
     private lateinit var recyclerView: RecyclerView
 
     private val contactAdapter: ContactAdapter = ContactAdapter().apply { listener = createAdapterListener() }
-
     private val contactViewModel: ContactFragViewModel by inject()
 
 
@@ -135,11 +132,9 @@ class ContactFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    private fun createAdapterListener(): ContactAdapter.IContactsListener {
-        return object : ContactAdapter.IContactsListener {
-            override fun onContactClicked(contact: Contact) {
-                updateContact(contact)
-            }
+    private fun createAdapterListener(): ContactAdapter.IContactsListener = object : ContactAdapter.IContactsListener {
+        override fun onContactClicked(contact: Contact) {
+            updateContact(contact)
         }
     }
 
@@ -159,7 +154,7 @@ class ContactFragment : Fragment() {
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        layoutParams.height = if (hasFocus) 6 else 3 // TODO("move to constants")
+        layoutParams.height = if (hasFocus) BOTTOM_VIEW_EXPENDED_HEIGHT else BOTTOM_VIEW_COLLAPSED_HEIGHT
         phoneUnderline.layoutParams = layoutParams
 
         phoneUnderline.setBackgroundColor(

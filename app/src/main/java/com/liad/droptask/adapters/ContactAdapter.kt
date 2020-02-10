@@ -6,9 +6,9 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.liad.droptask.R
-import com.liad.droptask.extensions.clearAndAddAll
-import com.liad.droptask.extensions.inflate
 import com.liad.droptask.models.Contact
+import com.liad.droptask.utils.extensions.clearAndAddAll
+import com.liad.droptask.utils.extensions.inflate
 
 class ContactAdapter :
     RecyclerView.Adapter<ContactAdapter.ViewHolder>() {
@@ -27,9 +27,9 @@ class ContactAdapter :
         val contact = contacts[position]
 
         val context = holder.itemView.context
-        holder.fullNameTextView.text = context.getString(R.string.fullname, contact.fullName)
+        holder.fullNameTextView.text = context.getString(R.string.full_name_formatted, contact.fullName)
         holder.phoneTextView.text =
-            context.getString(R.string.phone, contact.phoneNumber.countryCode, contact.phoneNumber.number)
+            context.getString(R.string.phone_formatted, contact.phoneNumber.countryCode, contact.phoneNumber.number)
         holder.cardView.setOnClickListener {
             listener?.onContactClicked(contact)
         }

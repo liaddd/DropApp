@@ -15,7 +15,7 @@ interface IDropRepository {
 
     val statefulLiveDataContact: StatefulLiveData<Contact>
 
-    fun insertContact(newContact: Contact)
+    fun upsertContact(newContact: Contact)
 
     fun removeContact(contactId: Long)
 

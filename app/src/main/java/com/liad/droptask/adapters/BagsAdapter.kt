@@ -1,37 +1,37 @@
 package com.liad.droptask.adapters
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.liad.droptask.R
-import com.liad.droptask.extensions.inflate
-import com.liad.droptask.fragments.BagsFragment
 import com.liad.droptask.models.Bag
+import com.liad.droptask.utils.extensions.clearAndAddAll
+import com.liad.droptask.utils.extensions.inflate
 
-class BagsAdapter(private val baseFragment: BagsFragment?, private var bags: List<Bag>) :
+class BagsAdapter :
     RecyclerView.Adapter<BagsAdapter.ViewHolder>() {
 
-    val bagsMutableList = mutableListOf<Bag>()
+    private val bagsList = mutableListOf<Bag>()
+    var listener: IBagClickListener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.bag_list_item))
     }
 
     override fun getItemCount(): Int {
-        return bags.size
+        return bagsList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val bag: Bag = bags[position]
+        val bag: Bag = bagsList[position]
 
-        holder.textView.text = "item: ${bag.tag}"
+        holder.textView.text = holder.itemView.context.getString(R.string.item, bag.tag)
 
         holder.cardView.setOnClickListener {
             bag.isAdded = !bag.isAdded
-            Log.d("Liad", "${bag.isAdded}")
-            baseFragment?.updateSelectedBags(bag)
+            listener?.onBagClickListener(bag)
             toggleItemState(holder, bag)
         }
 
@@ -39,14 +39,15 @@ class BagsAdapter(private val baseFragment: BagsFragment?, private var bags: Lis
     }
 
     private fun toggleItemState(holder: ViewHolder, bag: Bag) {
+        val context = holder.itemView.context
         holder.cardView.setCardBackgroundColor(
-            baseFragment?.activity?.resources!!.getColor(
+            context.resources.getColor(
                 if (bag.isAdded) android.R.color.black
                 else android.R.color.white
             )
         )
         holder.textView.setTextColor(
-            baseFragment.activity?.resources!!.getColor(
+            context.resources.getColor(
                 if (bag.isAdded) android.R.color.white
                 else android.R.color.black
             )
@@ -54,11 +55,7 @@ class BagsAdapter(private val baseFragment: BagsFragment?, private var bags: Lis
     }
 
     fun setBags(bags: List<Bag>) {
-        val bagMutableList = mutableListOf<Bag>()
-        for (bag in bags) {
-            bagMutableList.add(bag)
-        }
-        this.bags = bagMutableList
+        this.bagsList.clearAndAddAll(bags)
         notifyDataSetChanged()
     }
 
@@ -66,5 +63,9 @@ class BagsAdapter(private val baseFragment: BagsFragment?, private var bags: Lis
 
         val textView: TextView = itemView.findViewById(R.id.bag_list_item_text_view)
         var cardView: CardView = itemView.findViewById(R.id.bag_list_item_card_view)
+    }
+
+    interface IBagClickListener {
+        fun onBagClickListener(bag: Bag)
     }
 }

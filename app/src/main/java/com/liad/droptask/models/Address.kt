@@ -6,8 +6,6 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-// todo Liad - attach address to Contact
-
 @Entity(tableName = "address_table" , foreignKeys = [ForeignKey(
     entity = Contact::class,
     onUpdate = ForeignKey.CASCADE,
