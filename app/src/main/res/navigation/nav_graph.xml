@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/nav_graph"
+            app:startDestination="@id/contact_fragment">
+
+
+    <fragment
+            android:id="@+id/contact_fragment"
+            android:name="com.liad.droptask.fragments.ContactFragment"
+            android:label="Blank"
+            tools:layout="@layout/fragment_contact_details">
+        <action android:id="@+id/action_contact_fragment_to_address_fragment"
+                app:destination="@id/address_fragment"
+        />
+    </fragment>
+
+
+    <fragment
+            android:id="@+id/address_fragment"
+            android:name="com.liad.droptask.fragments.AddressFragment"
+            android:label="Blank"
+            tools:layout="@layout/fragment_address">
+        <action android:id="@+id/action_address_fragment_to_bags_fragment" app:destination="@id/bags_fragment"/>
+    </fragment>
+
+
+    <fragment
+            android:id="@+id/bags_fragment"
+            android:name="com.liad.droptask.fragments.BagsFragment"
+            android:label="Blank"
+            tools:layout="@layout/fragment_bags">
+        <action android:id="@+id/action_bags_fragment_to_drop_review_fragment"
+                app:destination="@id/drop_review_fragment"/>
+    </fragment>
+
+
+    <fragment
+            android:id="@+id/drop_review_fragment"
+            android:name="com.liad.droptask.fragments.DropReviewFragment"
+            android:label="Blank"
+            tools:layout="@layout/fragment_review_drop"/>
+</navigation>
